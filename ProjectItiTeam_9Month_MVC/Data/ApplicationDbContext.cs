@@ -11,6 +11,15 @@ namespace ProjectItiTeam.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
+        public ApplicationDbContext():base()
+        {
+
+        }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer("Data source=DESKTOP-354JS6L\\SQLEXPRESS;Initial catalog=projectTest_1 ;Integrated security = true");
+
+        }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {

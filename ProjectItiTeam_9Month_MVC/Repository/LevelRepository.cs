@@ -10,11 +10,14 @@ namespace ProjectItiTeam.Repository
     public class LevelRepository : ILevelRepository
     {
         ApplicationDbContext context;
-
-        public LevelRepository(ApplicationDbContext context)
+        public LevelRepository()
         {
-            this.context = context;
+         context = new ApplicationDbContext();
         }
+        //public LevelRepository(ApplicationDbContext context)
+        //{
+        //    this.context = context;
+        //}
 
         public List<Level> GetAll()
         {
