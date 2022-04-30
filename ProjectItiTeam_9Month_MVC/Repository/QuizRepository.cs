@@ -4,14 +4,20 @@ using System.Linq;
 using ProjectItiTeam.Data;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using System;
+
 namespace ProjectItiTeam.Repository
 {
     public class QuizRepository : IQuizRepository
     {
         ApplicationDbContext Context;
-        public QuizRepository(ApplicationDbContext context)
+        //public QuizRepository(ApplicationDbContext context)
+        //{
+        //    this.Context = context;
+        //}
+        public QuizRepository ()
         {
-            this.Context = context;
+            Context = new ApplicationDbContext ();
         }
         public List<Quiz> GetAllByLevelId(int id) // Get All Quize data in Selected level
         {
@@ -52,8 +58,17 @@ namespace ProjectItiTeam.Repository
 
         public int Delete(int id)
         {
+
             Quiz quiz = GetById(id);
-            Context.Quizzes.Remove(quiz);
+            if (quiz != null)
+            {
+                Context.Quizzes.Remove(quiz);
+
+            }
+            else
+            {
+                throw new NullReferenceException();
+            }
             return Context.SaveChanges();
         }
     }

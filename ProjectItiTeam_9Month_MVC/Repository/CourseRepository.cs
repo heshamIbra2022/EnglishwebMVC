@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProjectItiTeam.Data;
 using ProjectItiTeam.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,9 +11,13 @@ namespace ProjectItiTeam.Repository
     {
         ApplicationDbContext context;
 
-        public CourseRepository(ApplicationDbContext context)
+        //public CourseRepository(ApplicationDbContext context)
+        //{
+        //    this.context = context;
+        //}
+        public CourseRepository()
         {
-            this.context = context;
+            context = new ApplicationDbContext();
         }
 
         public List<Course> GetAll()
@@ -49,7 +54,14 @@ namespace ProjectItiTeam.Repository
         public int Delete(int id)
         {
             Course oldcrs = GetById(id);
-            context.Courses.Remove(oldcrs);
+            if (oldcrs != null)
+            {
+                context.Courses.Remove(oldcrs);
+            }
+            else
+            {
+                throw new NullReferenceException();
+            }
             return context.SaveChanges();
         }
     }

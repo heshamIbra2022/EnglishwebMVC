@@ -4,15 +4,20 @@ using System.Linq;
 using ProjectItiTeam.Data;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace ProjectItiTeam.Repository
 {
     public class MCQRepository : IMCQRepository
     {
         ApplicationDbContext Context;
-        public MCQRepository(ApplicationDbContext Contect)
+        //public MCQRepository(ApplicationDbContext Contect)
+        //{
+        //    this.Context = Contect;
+        //}
+        public MCQRepository()
         {
-            this.Context = Contect;
+            Context = new ApplicationDbContext();
         }
         public List<MCQ> GetAllBylevelId(int id)
         {
@@ -51,8 +56,14 @@ namespace ProjectItiTeam.Repository
         public int Delete(int id)
         {
             MCQ McqDeleted = Context.MCQs.FirstOrDefault(q => q.Id == id); ;
-
-            Context.MCQs.Remove(McqDeleted);
+            if (McqDeleted != null)
+            {
+                Context.MCQs.Remove(McqDeleted);
+            }
+            else
+            {
+                throw new NullReferenceException();
+            }
             return Context.SaveChanges();
         }
     }
