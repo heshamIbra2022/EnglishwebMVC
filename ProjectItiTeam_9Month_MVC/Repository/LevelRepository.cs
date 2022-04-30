@@ -51,9 +51,12 @@ namespace ProjectItiTeam.Repository
         public int Delete(int id)
         {
             Level oldlevel = GetById(id);
-
-            context.levels.Remove(oldlevel);
+            if (oldlevel != null)
+            {
+                context.levels.Remove(oldlevel);
             return context.SaveChanges();
+            }
+            return 0;
         }
 
     }

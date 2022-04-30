@@ -10,6 +10,10 @@ namespace ProjectItiTeam.Repository
     public class QuestionRepoistory : IQuestionRepoistory
     {
         ApplicationDbContext Context;
+        public QuestionRepoistory()
+        {
+            Context = new ApplicationDbContext();
+        }
         public QuestionRepoistory(ApplicationDbContext context)
         {
             this.Context = context;
