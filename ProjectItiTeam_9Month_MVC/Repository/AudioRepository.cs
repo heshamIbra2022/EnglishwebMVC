@@ -10,14 +10,15 @@ namespace ProjectItiTeam.Repository
     public class AudioRepository : IAudioRepository
     {
         ApplicationDbContext context;//= new ApplicationDbContext();
-        public AudioRepository(ApplicationDbContext _Context)
-        {
-            context = _Context;
-        }
+        //public AudioRepository(ApplicationDbContext _Context)
+        //{
+        //    context = _Context;
+        //}
 
         public AudioRepository()
         {
             id = Guid.NewGuid();
+            context = new ApplicationDbContext();
         }
         public Guid id { get; set; }
 
@@ -49,7 +50,15 @@ namespace ProjectItiTeam.Repository
         }
         public int delete(int id)
         {
-            context.Audios.Remove(GetById(id));
+            Audio audio = GetById(id);
+            if (audio != null)
+            {
+                context.Audios.Remove(audio);
+            }
+            else
+            {
+                throw new NullReferenceException();
+            }
             return context.SaveChanges();
         }
         public List<Audio> GetByDeptId(int id) // by level nor department

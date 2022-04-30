@@ -10,14 +10,15 @@ namespace ProjectItiTeam.Repository
     public class RateRepository : IRateRepository
     {
         ApplicationDbContext context;//= new ApplicationDbContext();
-        public RateRepository(ApplicationDbContext _Context)
-        {
-            context = _Context;
-        }
+        //public RateRepository(ApplicationDbContext _Context)
+        //{
+        //    context = _Context;
+        //}
 
         public RateRepository()
         {
             id = Guid.NewGuid();
+            context = new ApplicationDbContext();
         }
         public Guid id { get; set; }
 
@@ -48,7 +49,15 @@ namespace ProjectItiTeam.Repository
         }
         public int delete(int id)
         {
-            context.Rates.Remove(GetById(id));
+            Rate rate = GetById(id);
+            if (rate != null)
+            {
+                context.Rates.Remove(rate);
+            }
+            else
+            {
+                throw new NullReferenceException();
+            }
             return context.SaveChanges();
         }
         public List<Rate> GetByCourseId(int id)

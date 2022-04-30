@@ -10,14 +10,15 @@ namespace ProjectItiTeam.Repository
     public class VideoRepository : IVideoRepository
     {
         ApplicationDbContext context;//= new ApplicationDbContext();
-        public VideoRepository(ApplicationDbContext _Context)
-        {
-            context = _Context;
-        }
-
+        //public VideoRepository(ApplicationDbContext _Context)
+        //{
+        //    context = _Context;
+        //}
+     
         public VideoRepository()
         {
             id = Guid.NewGuid();
+            context = new ApplicationDbContext();
         }
         public Guid id { get; set; }
 
@@ -49,8 +50,18 @@ namespace ProjectItiTeam.Repository
         }
         public int delete(int id)
         {
-            context.Videos.Remove(GetById(id));
+
+            Video video = GetById(id);
+            if (video != null)
+            {
+                context.Videos.Remove(video);
+            }
+            else
+            {
+                throw new NullReferenceException();
+            }
             return context.SaveChanges();
+
         }
         public List<Video> GetByCourseId(int id)
         {
